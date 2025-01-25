@@ -13,6 +13,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 public class selectcategory extends AppCompatActivity {
     CardView cvfarmer,cvLabour;
+    String category;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,14 +34,18 @@ public class selectcategory extends AppCompatActivity {
         cvfarmer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                category="Farmer";
                 Intent i = new Intent(selectcategory.this,Registration.class);
+                i.putExtra("category",category);
                 startActivity(i);
             }
         });
         cvLabour.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                category="Labour";
                 Intent i = new Intent(selectcategory.this,Registration.class);
+                i.putExtra("category",category);
                 startActivity(i);
             }
         });
