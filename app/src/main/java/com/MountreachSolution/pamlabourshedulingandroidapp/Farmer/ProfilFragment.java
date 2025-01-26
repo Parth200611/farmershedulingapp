@@ -95,7 +95,7 @@ public class ProfilFragment extends Fragment {
         Cursor cursor = databaseHelper.getUserDataByMobile(mobileNumber);
 
         if (cursor != null && cursor.moveToFirst()) {
-            // Extract the data from the cursor
+
             String name = cursor.getString(cursor.getColumnIndex("name"));
             String mobile = cursor.getString(cursor.getColumnIndex("mobileno"));
             String age = cursor.getString(cursor.getColumnIndex("age"));
@@ -103,7 +103,7 @@ public class ProfilFragment extends Fragment {
             String adhar = cursor.getString(cursor.getColumnIndex("adharno"));
 
 
-            // Set the data to the corresponding TextViews
+
             tvname.setText(name);
             tvMobileNo.setText(mobile);
             tvage.setText(age);
