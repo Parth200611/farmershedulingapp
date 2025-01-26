@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatDelegate;
 import com.MountreachSolution.pamlabourshedulingandroidapp.Admin.AdminHomepage;
 import com.MountreachSolution.pamlabourshedulingandroidapp.Farmer.FarmerHomepage;
 import com.MountreachSolution.pamlabourshedulingandroidapp.Labour.LabourHomepage;
+import com.MountreachSolution.pamlabourshedulingandroidapp.SQLiteDataBase.UserRegisterdatabase;
 
 public class SplashScreen extends AppCompatActivity {
     UserRegisterdatabase database;
