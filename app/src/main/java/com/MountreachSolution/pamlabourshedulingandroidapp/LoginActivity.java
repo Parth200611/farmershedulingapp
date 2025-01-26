@@ -2,8 +2,10 @@ package com.MountreachSolution.pamlabourshedulingandroidapp;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.InputType;
+import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -15,9 +17,10 @@ import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.AppCompatButton;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+
+import com.MountreachSolution.pamlabourshedulingandroidapp.Admin.AdminHomepage;
+import com.MountreachSolution.pamlabourshedulingandroidapp.Farmer.FarmerHomepage;
+import com.MountreachSolution.pamlabourshedulingandroidapp.Labour.LabourHomepage;
 
 public class LoginActivity extends AppCompatActivity {
     TextView tvnewUser;
@@ -26,7 +29,7 @@ public class LoginActivity extends AppCompatActivity {
     AppCompatButton btnlogin;
     String mobileno ,password;
     CheckBox cbshowpassword;
-    DATABASE database;
+    UserRegisterdatabase database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,19 +42,19 @@ public class LoginActivity extends AppCompatActivity {
         etpassword = findViewById(R.id.etLoginPassword);
         btnlogin = findViewById(R.id.btnLoginButton);
         cbshowpassword = findViewById(R.id.cbLoginShowpassword);
-        database = new DATABASE(this);
+        database = new UserRegisterdatabase(LoginActivity.this);
 
         cbshowpassword.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    // Show password
+
                     etpassword.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
                 } else {
-                    // Hide password
+
                     etpassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
                 }
-                // Move cursor to the end of the text
+
                 etpassword.setSelection(etpassword.getText().length());
             }
         });
@@ -79,20 +82,34 @@ public class LoginActivity extends AppCompatActivity {
                     password = etpassword.getText().toString();
                     String role = database.loginUser(mobileno, password);
 
-                    // Handle login results
+                    SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
                     if (role != null) {
                         if (role.equals("INCORRECT_PASSWORD")) {
                             progressDialog.dismiss();
                             Toast.makeText(LoginActivity.this, "Incorrect password. Please try again.", Toast.LENGTH_SHORT).show();
                         } else if (role.equals("Farmer")) {
+                            editor.putString("Role", "Farmer");
+                            editor.putString("MobileNumber", mobileno);
+                            editor.putBoolean("IsLoggedIn", true);
+                            editor.apply();
                             progressDialog.dismiss();
+                            Log.d("LoginActivity", "Mobile number saved for Farmer: " + mobileno);
                             Intent intent = new Intent(LoginActivity.this, FarmerHomepage.class);
                             startActivity(intent);
                         } else if (role.equals("Labour")) {
                             progressDialog.dismiss();
+                            editor.putString("Role", "Labour");
+                            editor.putString("MobileNumber", mobileno);
+                            editor.putBoolean("IsLoggedIn", true);
+                            editor.apply();
                             Intent intent = new Intent(LoginActivity.this, LabourHomepage.class);
                             startActivity(intent);
                         } else if (role.equals("admin")) {
+                            editor.putString("Role", "admin");
+                            editor.putString("MobileNumber", mobileno);
+                            editor.putBoolean("IsLoggedIn", true);
+                            editor.apply();
                             progressDialog.dismiss();
                             Intent intent = new Intent(LoginActivity.this, AdminHomepage.class);
                             startActivity(intent);

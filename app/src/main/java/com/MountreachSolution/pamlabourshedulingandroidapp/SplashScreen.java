@@ -1,6 +1,7 @@
 package com.MountreachSolution.pamlabourshedulingandroidapp;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -9,8 +10,12 @@ import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
+import com.MountreachSolution.pamlabourshedulingandroidapp.Admin.AdminHomepage;
+import com.MountreachSolution.pamlabourshedulingandroidapp.Farmer.FarmerHomepage;
+import com.MountreachSolution.pamlabourshedulingandroidapp.Labour.LabourHomepage;
+
 public class SplashScreen extends AppCompatActivity {
-    DATABASE database;
+    UserRegisterdatabase database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,8 +44,22 @@ public class SplashScreen extends AppCompatActivity {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent i = new Intent(SplashScreen.this,LoginActivity.class);
-                startActivity(i);
+
+                SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+                boolean isLoggedIn = sharedPreferences.getBoolean("IsLoggedIn", false);
+                String role = sharedPreferences.getString("Role", null);
+                if (isLoggedIn) {
+                    if ("Farmer".equals(role)) {
+                        startActivity(new Intent(SplashScreen.this, FarmerHomepage.class));
+                    } else if ("Labour".equals(role)) {
+                        startActivity(new Intent(SplashScreen.this, LabourHomepage.class));
+                    } else if ("admin".equals(role)) {
+                        startActivity(new Intent(SplashScreen.this, AdminHomepage.class));
+                    }
+                } else {
+                    startActivity(new Intent(SplashScreen.this, LoginActivity.class));
+                }
+                finish();
 
             }
         },4000);

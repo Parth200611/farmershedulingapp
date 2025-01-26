@@ -22,7 +22,8 @@ public class Registration extends AppCompatActivity {
     ProgressDialog progressDialog;
     AppCompatButton btnRegister;
     String category;
-    DATABASE database;
+    UserRegisterdatabase database;
+    int agel;
 
 
     String name,mobileno,age,adhar,password,address;
@@ -47,7 +48,7 @@ public class Registration extends AppCompatActivity {
 
         btnRegister=findViewById(R.id.btnRegisterButton);
 
-        database=new DATABASE(Registration.this);
+        database=new UserRegisterdatabase(Registration.this);
 
         
         btnRegister.setOnClickListener(new View.OnClickListener() {
@@ -63,10 +64,7 @@ public class Registration extends AppCompatActivity {
                     etAddress.setError("Please enter the address");
                 } else if (etage.getText().toString().isEmpty()) {
                     etage.setError("Please enter the age");
-                    int age = Integer.parseInt(etage.getText().toString().trim());
-                    if (age < 14) {
-                        etage.setError("Age not valid");
-                    }
+
                 } else if (etadharno.getText().toString().isEmpty()) {
                     etadharno.setError("Please enter adhra number for verification");
                 } else if (etpassword.getText().toString().isEmpty()) {
@@ -94,6 +92,11 @@ public class Registration extends AppCompatActivity {
                     age = etage.getText().toString();
                     adhar = etadharno.getText().toString();
                     password = etpassword.getText().toString();
+
+                    age = String.valueOf(Integer.parseInt(etage.getText().toString().trim()));
+                    if (agel<14){
+                        etage.setError("Age Must be Above 15");
+                    }
 
                     // Check if the mobile number already exists
                     if (database.isUserExists(mobileno)) {
