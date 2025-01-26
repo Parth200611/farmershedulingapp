@@ -16,7 +16,7 @@
         />
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:layout_width="match_parent"
-        android:layout_height="125dp"
+        android:layout_height="108dp"
         android:id="@+id/bottomnevigatiomuserhome"
         app:menu="@menu/farmerbottomnavigation"
         android:layout_alignParentBottom="true"

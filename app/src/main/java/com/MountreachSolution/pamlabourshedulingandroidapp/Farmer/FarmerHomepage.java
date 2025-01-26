@@ -25,7 +25,7 @@ public class FarmerHomepage extends AppCompatActivity implements BottomNavigatio
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_farmer_homepage);
 
-        getWindow().setStatusBarColor(ContextCompat.getColor(FarmerHomepage.this,R.color.green));
+        getWindow().setStatusBarColor(ContextCompat.getColor(FarmerHomepage.this,R.color.lightbrown));
         getWindow().setNavigationBarColor(ContextCompat.getColor(FarmerHomepage.this,R.color.white));
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
 

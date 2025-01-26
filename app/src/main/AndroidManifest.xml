@@ -24,7 +24,8 @@
             android:exported="false" />
         <activity
             android:name=".Farmer.FarmerHomepage"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/showactionbar"/>
         <activity
             android:name=".Registration"
             android:exported="false" />

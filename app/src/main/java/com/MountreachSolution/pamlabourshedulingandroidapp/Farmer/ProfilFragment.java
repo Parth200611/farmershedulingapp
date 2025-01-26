@@ -3,6 +3,7 @@ package com.MountreachSolution.pamlabourshedulingandroidapp.Farmer;
 import static android.app.Activity.RESULT_OK;
 import static android.content.Context.MODE_PRIVATE;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -101,11 +102,17 @@ public class ProfilFragment extends Fragment {
             String age = cursor.getString(cursor.getColumnIndex("age"));
             String address = cursor.getString(cursor.getColumnIndex("address"));
             String adhar = cursor.getString(cursor.getColumnIndex("adharno"));
+            SharedPreferences sharedPreferences = getActivity().getSharedPreferences("Userdata", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+
 
 
 
             tvname.setText(name);
+            editor.putString("userName", name);
             tvMobileNo.setText(mobile);
+            editor.putString("userMobile", mobile);
+            editor.apply();
             tvage.setText(age);
             tvaddress.setText(address);
             tvadhareno.setText(adhar);
@@ -142,6 +149,7 @@ public class ProfilFragment extends Fragment {
 
             // Insert image path into the database with mobile number
             dbHelper.insertImage(mobileNumber, imagePath);
+
 
             // You can fetch the image path later like this:
             String fetchedImagePath = dbHelper.getImagePath(mobileNumber);
