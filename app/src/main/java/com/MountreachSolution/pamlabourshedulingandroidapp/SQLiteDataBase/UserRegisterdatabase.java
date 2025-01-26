@@ -1,4 +1,4 @@
-package com.MountreachSolution.pamlabourshedulingandroidapp;
+package com.MountreachSolution.pamlabourshedulingandroidapp.SQLiteDataBase;
 
 import android.content.ContentValues;
 import android.content.Context;
