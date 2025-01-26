@@ -97,4 +97,9 @@ public class UserRegisterdatabase extends SQLiteOpenHelper {
         db.close();
         return exists;
     }
+    public Cursor getUserDataByMobile(String mobile) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT * FROM " + TABLE_USER + " WHERE " + COLUMN_MOBILE + " = ?";
+        return db.rawQuery(query, new String[]{mobile});
+    }
 }
