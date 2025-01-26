@@ -1,16 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Labour.LabourHomepage">
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Labour Home Page"
-        android:textSize="30dp"
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/FrameLayoutlabourhome"
+        android:layout_above="@id/bottomnevigatiomlabourhome"
+        />
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:layout_width="match_parent"
+        android:layout_height="108dp"
+        android:id="@+id/bottomnevigatiomlabourhome"
+        app:menu="@menu/labourbottommenu"
+        android:layout_alignParentBottom="true"
+        app:itemRippleColor="@color/green"
+        app:itemIconTint="@color/drown"
+        app:itemActiveIndicatorStyle="@style/App.Custom.Indicator"
+        app:itemTextColor="@color/drown"
+        android:background="@color/white"
         />
 
-</LinearLayout>
+
+
+</RelativeLayout>
