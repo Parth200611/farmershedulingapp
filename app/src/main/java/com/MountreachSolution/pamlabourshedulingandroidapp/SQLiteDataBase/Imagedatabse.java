@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 
@@ -49,19 +50,24 @@ public class Imagedatabse extends SQLiteOpenHelper {
     }
 
     // Method to fetch image path by mobile number
+    // Method to fetch image path by mobile number
     public String getImagePath(String mobileNumber) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.query(TABLE_IMAGES, new String[]{COLUMN_IMAGE_PATH},
                 COLUMN_MOBILE_NUMBER + "=?", new String[]{mobileNumber},
                 null, null, null);
 
-        if (cursor != null) {
-            cursor.moveToFirst();
+        if (cursor != null && cursor.moveToFirst()) {
+            // Check if the cursor has data before accessing
             String imagePath = cursor.getString(cursor.getColumnIndex(COLUMN_IMAGE_PATH));
             cursor.close();
             return imagePath;
         } else {
+            // Log or handle the case where no data is found
+            Log.e("Database Error", "No image path found for mobile number: " + mobileNumber);
+            cursor.close();
             return null; // Return null if no record is found
         }
     }
+
 }

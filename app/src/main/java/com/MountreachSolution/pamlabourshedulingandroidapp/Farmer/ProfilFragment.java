@@ -88,10 +88,8 @@ public class ProfilFragment extends Fragment {
 
         // Logout button click
         btnlogout.setOnClickListener(v -> logoutUser());
-
         return view;
     }
-
     private void fetchUserData() {
         Cursor cursor = databaseHelper.getUserDataByMobile(mobileNumber);
 
@@ -128,16 +126,20 @@ public class ProfilFragment extends Fragment {
         String imagePath = dbHelper.getImagePath(mobileNumber);
 
         if (imagePath != null) {
-            // Use Glide to load the image into the CircleImageView
-            Glide.with(getActivity())
-                    .load(imagePath)
-                    .error(R.drawable.baseline_person_24)  // Set a default image if loading fails
-                    .into(imageView);
+            try {
+                // Convert the image path to a Bitmap
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), Uri.parse(imagePath));
+                imageView.setImageBitmap(bitmap); // Set the Bitmap to the CircleImageView
+            } catch (Exception e) {
+                e.printStackTrace();
+                Toast.makeText(getActivity(), "Error loading image", Toast.LENGTH_SHORT).show();
+            }
         } else {
-            // If no image path exists, you can set a default or placeholder image
+            // If no image path exists, set a default or placeholder image
             imageView.setImageResource(R.drawable.baseline_person_24); // Put a default image in resources
         }
     }
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -147,17 +149,31 @@ public class ProfilFragment extends Fragment {
             Uri selectedImageUri = data.getData();
             String imagePath = getRealPathFromURI(selectedImageUri);
 
-            // Insert image path into the database with mobile number
-            dbHelper.insertImage(mobileNumber, imagePath);
+            if (imagePath != null) {
+                // Insert the image path into the database
+                dbHelper.insertImage(mobileNumber, imagePath);
 
+                try {
+                    // Convert the URI to a Bitmap
+                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), selectedImageUri);
 
-            // You can fetch the image path later like this:
-            String fetchedImagePath = dbHelper.getImagePath(mobileNumber);
-            Log.d("Image Path", fetchedImagePath);
+                    // Set the Bitmap to the CircleImageView
+                    imageView.setImageBitmap(bitmap);
+
+                    // Log or confirm the image selection
+                    Log.d("Image Path", imagePath);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Toast.makeText(getActivity(), "Error setting image", Toast.LENGTH_SHORT).show();
+                }
+            } else {
+                Toast.makeText(getActivity(), "Unable to get image path", Toast.LENGTH_SHORT).show();
+            }
         } else {
             Log.d("Error", "Data is null or image picking was canceled!");
         }
     }
+
 
     public String getRealPathFromURI(Uri contentUri) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
