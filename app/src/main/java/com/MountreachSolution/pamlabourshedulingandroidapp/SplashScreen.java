@@ -1,7 +1,10 @@
 package com.MountreachSolution.pamlabourshedulingandroidapp;
 
+import static androidx.core.content.ContentProviderCompat.requireContext;
+
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -13,10 +16,12 @@ import androidx.appcompat.app.AppCompatDelegate;
 import com.MountreachSolution.pamlabourshedulingandroidapp.Admin.AdminHomepage;
 import com.MountreachSolution.pamlabourshedulingandroidapp.Farmer.FarmerHomepage;
 import com.MountreachSolution.pamlabourshedulingandroidapp.Labour.LabourHomepage;
+import com.MountreachSolution.pamlabourshedulingandroidapp.SQLiteDataBase.FarmerWorkDatabase;
 import com.MountreachSolution.pamlabourshedulingandroidapp.SQLiteDataBase.UserRegisterdatabase;
 
 public class SplashScreen extends AppCompatActivity {
     UserRegisterdatabase database;
+    private FarmerWorkDatabase dbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +35,7 @@ public class SplashScreen extends AppCompatActivity {
                         View.SYSTEM_UI_FLAG_FULLSCREEN |
                         View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
         );
+        dbHelper = new FarmerWorkDatabase(SplashScreen.this);
 //        String name="ADMIN";String number="1234567890";
 //        String password="ADMIN";
 //        String role="admin";
@@ -40,6 +46,7 @@ public class SplashScreen extends AppCompatActivity {
 //        database=new DATABASE(SplashScreen.this);
 //        database.UserRegister(name,number,address,age,adhar,password,role);
 
+        //clearData();
 
         Handler handler=new Handler();
         handler.postDelayed(new Runnable() {
@@ -66,5 +73,11 @@ public class SplashScreen extends AppCompatActivity {
         },2000);
 
 
+    }
+
+    private void clearData() {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        db.execSQL("DELETE FROM workposting");  // Replace 'workposting' with your table name
+        db.close();
     }
 }

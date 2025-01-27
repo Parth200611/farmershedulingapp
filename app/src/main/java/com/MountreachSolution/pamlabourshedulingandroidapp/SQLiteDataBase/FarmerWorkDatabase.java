@@ -2,6 +2,7 @@ package com.MountreachSolution.pamlabourshedulingandroidapp.SQLiteDataBase;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
@@ -29,8 +30,9 @@ public class FarmerWorkDatabase extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+
         String CREATE_WORK_POSTING_TABLE = "CREATE TABLE " + TABLE_WORK_POSTING + " (" +
-                COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                COLUMN_ID + " Text PRIMARY KEY AUTOINCREMENT, " +
                 COLUMN_FARMER_NAME + " TEXT, " +
                 COLUMN_MOBILE_NUMBER + " TEXT, " +
                 COLUMN_ADDRESS + " TEXT, " +
@@ -67,4 +69,15 @@ public class FarmerWorkDatabase extends SQLiteOpenHelper {
         db.insert(TABLE_WORK_POSTING, null, values);
         db.close();
     }
+    public Cursor getPaginatedWorkPostings(int limit, int offset) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT * FROM " + TABLE_WORK_POSTING + " LIMIT ? OFFSET ?";
+        return db.rawQuery(query, new String[]{String.valueOf(limit), String.valueOf(offset)});
+    }
+    public Cursor getdata(){
+        SQLiteDatabase db=this.getWritableDatabase();
+        Cursor cursor=db.rawQuery("SELECT * FROM "+TABLE_WORK_POSTING,null);
+        return cursor;
+    }
+
 }
